@@ -26,7 +26,7 @@ add FOREIGN key (post_id) REFERENCES post_id(id) on DELETE set NULL
             ->on('posts')->onDelete('cascade');
         });
 
-# join
+# join = get all queries where they match
 
 SELECT \* FROM `posts` JOIN `comments` ON `comments`.`post_id` = `posts`.`id`;
 SELECT \* FROM `posts` inner JOIN `comments` ON `comments`.`post_id` = `posts`.`id`;
