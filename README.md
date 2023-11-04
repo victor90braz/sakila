@@ -52,3 +52,9 @@ from users
 SELECT users.email, users.`name`, users.remember_token
 from users
 left JOIN `comments` on `comments`.post_id = post_id
+
+----------- GROUP BY ---------------------
+SELECT users.email, users.`name`, users.remember_token COUNT(comments.post_id)
+FROM users
+LEFT JOIN `comments` ON `comments`.post_id = post_id
+GROUP BY users.email, users.`name`, users.remember_token;
