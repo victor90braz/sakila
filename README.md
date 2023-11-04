@@ -29,3 +29,10 @@ add FOREIGN key (post_id) REFERENCES post_id(id) on DELETE set NULL
 # join
 
 SELECT \* FROM `posts` JOIN `comments` ON `comments`.`post_id` = `posts`.`id`;
+SELECT \* FROM `posts` inner JOIN `comments` ON `comments`.`post_id` = `posts`.`id`;
+SELECT \* FROM `posts` left JOIN `comments` ON `comments`.`post_id` = `posts`.`id`;
+SELECT \* FROM `posts` right OUTER JOIN `comments` ON `comments`.`post_id` = `posts`.`id`;
+
+# left OUTER JOIN = get all queries from posts
+
+# right OUTER JOIN = get all queries from comments
