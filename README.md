@@ -36,3 +36,19 @@ SELECT \* FROM `posts` right OUTER JOIN `comments` ON `comments`.`post_id` = `po
 # left OUTER JOIN = get all queries from posts
 
 # right OUTER JOIN = get all queries from comments
+
+----------- notes ---------------------
+
+SELECT \* from users
+
+or
+
+SELECT
+users.email, users.`name`, users.remember_token
+from users
+
+----------- notes ---------------------
+
+SELECT users.email, users.`name`, users.remember_token
+from users
+left JOIN `comments` on `comments`.post_id = post_id
