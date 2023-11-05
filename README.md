@@ -161,5 +161,3 @@ php artisan tinker
 $user = new User
 $user->all()
 ```
-
-This format retains all the information and is ready for reference. If you have any specific questions or need further assistance, please feel free to ask.
