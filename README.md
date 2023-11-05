@@ -58,3 +58,28 @@ SELECT users.email, users.`name`, users.remember_token COUNT(comments.post_id)
 FROM users
 LEFT JOIN `comments` ON `comments`.post_id = post_id
 GROUP BY users.email, users.`name`, users.remember_token;
+
+-----------CREATE DB RELATIONSHIP ONE-TO-ONE ---------------------
+SELECT \* from users
+join profiles
+on profiles.user_id = user_id
+
+# SCHEMA
+
+public function up(): void
+{
+Schema::create('profiles', function (Blueprint $table) {
+$table->bigIncrements('id');
+$table->unsignedBigInteger('user_id');
+$table->string('website');
+$table->string('github');
+$table->string('twitter');
+$table->timestamps();
+
+        $table->foreign('user_id')->references('id')->on('users')
+        ->onDelete('cascade');
+    });
+
+}
+
+----------- RELATIONSHIP ONE-TO-ONE ---------------------
