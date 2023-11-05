@@ -203,6 +203,9 @@ $user->first()->posts->toArray()
 
 # many to many
 
+$this->belongsToMany(Post::class);
+$this->belongsToMany(Tag::class);
+
     Schema::create('post_tag', function (Blueprint $table) {
         $table->bigIncrements('id');
         $table->unsignedBigInteger('post_id');
