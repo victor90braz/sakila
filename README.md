@@ -194,6 +194,9 @@ use HasFactory;
 $user = User::find(1);
 
 > $post = $user->posts()->create([
+>
 > > . 'title' => 'foo',
 > > . 'body' => 'foo baz',
 > > . ]);
+
+$user->first()->posts->toArray()
