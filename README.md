@@ -161,4 +161,5 @@ Tinker Usage:
 php artisan tinker
 $user = new User
 $user->all()
+$user->first()->toArray()
 ```
