@@ -200,3 +200,23 @@ $user = User::find(1);
 > > . ]);
 
 $user->first()->posts->toArray()
+
+# many to many
+
+    Schema::create('post_tag', function (Blueprint $table) {
+        $table->bigIncrements('id');
+        $table->unsignedBigInteger('post_id');
+        $table->unsignedBigInteger('tag_id');
+        $table->timestamps();
+
+        $table->foreign('post_id')->references('id')->on('posts')
+        ->onDelete('cascade');
+
+        $table->foreign('tag_id')->references('id')->on('tags')
+        ->onDelete('cascade');
+    });
+
+select \* from posts
+left join post_tag
+on post_tag.post_id = posts.id
+WHERE post_tag.tag_id = 1
