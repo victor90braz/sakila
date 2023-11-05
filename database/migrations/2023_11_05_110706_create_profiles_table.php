@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('profiles', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
-            $table->string('website');
-            $table->string('github');
-            $table->string('twitter');
+            $table->string('website')->nullable();
+            $table->string('github')->nullable();
+            $table->string('twitter')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')

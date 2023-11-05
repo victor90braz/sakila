@@ -59,7 +59,12 @@ FROM users
 LEFT JOIN `comments` ON `comments`.post_id = post_id
 GROUP BY users.email, users.`name`, users.remember_token;
 
+# RELATIONSHIPS
+
+# ONE-TO-ONE
+
 -----------CREATE DB RELATIONSHIP ONE-TO-ONE ---------------------
+
 SELECT \* from users
 join profiles
 on profiles.user_id = user_id
@@ -83,3 +88,35 @@ $table->timestamps();
 }
 
 ----------- RELATIONSHIP ONE-TO-ONE ---------------------
+
+# ONE-TO-ONE STEPS
+
+    class User extends Authenticatable
+    {
+        use HasFactory;
+
+        public function profile() {
+            return $this->belongsTo(Profile::class);
+        }
+    }
+
+    class Profile extends Model
+    {
+        use HasFactory;
+        protected $guarded = [];
+
+        public function user() {
+            return $this->belongsTo(User::class);
+        }
+    }
+
+    note: protected $guarded = []; // remember to add
+
+# tinker
+
+php artisan tinker
+$user = new User
+$user->first()
+$user->first()->profile
+
+#
