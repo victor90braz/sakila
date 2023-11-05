@@ -163,3 +163,15 @@ $user = new User
 $user->all()
 $user->first()->toArray()
 ```
+
+# SELECT \*
+
+SELECT \* from posts
+join users on users.id = posts.user_id
+where user_id = 1
+
+# SELECT posts.id, title, body, published_at, users.name
+
+SELECT posts.id, title, body, published_at, users.name from posts
+join users on users.id = posts.user_id
+where user_id = 1
