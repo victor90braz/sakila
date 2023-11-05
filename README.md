@@ -229,3 +229,6 @@ $post->tags
 
 $post = App\Models\Post::find(6)
 $post->tags
+
+$tag = App\Models\Tag::find(2)
+$tag->posts
