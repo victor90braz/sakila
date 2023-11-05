@@ -11,6 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    protected $guarded = [];
     protected $with = ['profile'];
 
     /**
@@ -47,5 +48,10 @@ class User extends Authenticatable
     public function profile() {
 
         return $this->hasOne(Profile::class);
+    }
+
+    public function posts() {
+
+        return $this->hasMany(Post::class);
     }
 }

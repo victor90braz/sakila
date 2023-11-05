@@ -175,3 +175,25 @@ where user_id = 1
 SELECT posts.id, title, body, published_at, users.name from posts
 join users on users.id = posts.user_id
 where user_id = 1
+
+# if we change the function name, specify the user_id as reference
+
+class Post extends Model
+{
+use HasFactory;
+
+    public function author() {
+
+        return $this->belongsToMany(User::class, 'user_id');
+    }
+
+}
+
+# tinker
+
+$user = User::find(1);
+
+> $post = $user->posts()->create([
+> > . 'title' => 'foo',
+> > . 'body' => 'foo baz',
+> > . ]);
