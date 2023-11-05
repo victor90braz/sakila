@@ -223,3 +223,9 @@ select \* from posts
 left join post_tag
 on post_tag.post_id = posts.id
 WHERE post_tag.tag_id = 1
+
+$post = App\Models\Post::find(1)
+$post->tags
+
+$post = App\Models\Post::find(6)
+$post->tags
