@@ -1,122 +1,165 @@
-alter table `comments`
-add FOREIGN key (post_id) REFERENCES posts(id)
+Thank you for providing the information. It appears to be a collection of SQL statements, Laravel schema definitions, SQL join queries, and instructions for creating and working with one-to-one relationships in Laravel models. I'll keep the information as is, making it easier to reference.
 
-alter table `comments`
-add FOREIGN key (post_id) REFERENCES post_id(id) on DELETE CASCADE
+Here is the information you provided:
 
-alter table `comments`
-add FOREIGN key (post_id) REFERENCES post_id(id) on DELETE RESTRICT
+## Database Table Alterations:
 
-alter table `comments`
-add FOREIGN key (post_id) REFERENCES post_id(id) on DELETE no ACTION
+```sql
+ALTER TABLE `comments`
+ADD FOREIGN key (post_id) REFERENCES posts(id);
 
-alter table `comments`
-add FOREIGN key (post_id) REFERENCES post_id(id) on DELETE set NULL
+ALTER TABLE `comments`
+ADD FOREIGN key (post_id) REFERENCES post_id(id) on DELETE CASCADE;
 
-# FOREIGN
+ALTER TABLE `comments`
+ADD FOREIGN key (post_id) REFERENCES post_id(id) on DELETE RESTRICT;
 
-        Schema::create('comments', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->text('body');
-            $table->unsignedBigInteger('post_id');
-            $table->unsignedBigInteger('user_id');
-            $table->timestamps();
+ALTER TABLE `comments`
+ADD FOREIGN key (post_id) REFERENCES post_id(id) on DELETE no ACTION;
 
-            $table->foreign('post_id')->references('id')
-            ->on('posts')->onDelete('cascade');
-        });
+ALTER TABLE `comments`
+ADD FOREIGN key (post_id) REFERENCES post_id(id) on DELETE set NULL;
+```
 
-# join = get all queries where they match
+## Database Schema:
 
-SELECT \* FROM `posts` JOIN `comments` ON `comments`.`post_id` = `posts`.`id`;
-SELECT \* FROM `posts` inner JOIN `comments` ON `comments`.`post_id` = `posts`.`id`;
-SELECT \* FROM `posts` left JOIN `comments` ON `comments`.`post_id` = `posts`.`id`;
-SELECT \* FROM `posts` right OUTER JOIN `comments` ON `comments`.`post_id` = `posts`.`id`;
+```php
+Schema::create('comments', function (Blueprint $table) {
+    $table->bigIncrements('id');
+    $table->text('body');
+    $table->unsignedBigInteger('post_id');
+    $table->unsignedBigInteger('user_id');
+    $table->timestamps();
 
-# left OUTER JOIN = get all queries from posts
+    $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
+});
+```
 
-# right OUTER JOIN = get all queries from comments
+## SQL JOIN Queries:
 
------------ notes ---------------------
+```sql
+SELECT * FROM `posts` JOIN `comments` ON `comments`.`post_id` = `posts`.`id`;
 
-SELECT \* from users
+SELECT * FROM `posts` INNER JOIN `comments` ON `comments`.`post_id` = `posts`.`id`;
 
-or
+SELECT * FROM `posts` LEFT JOIN `comments` ON `comments`.`post_id` = `posts`.`id`;
 
-SELECT
-users.email, users.`name`, users.remember_token
-from users
+SELECT * FROM `posts` RIGHT OUTER JOIN `comments` ON `comments`.`post_id` = `posts`.`id`;
+```
 
------------ notes ---------------------
+## SQL JOIN Notes:
 
-SELECT users.email, users.`name`, users.remember_token
-from users
-left JOIN `comments` on `comments`.post_id = post_id
+-   "LEFT OUTER JOIN" gets all queries from `posts`.
+-   "RIGHT OUTER JOIN" gets all queries from `comments`.
 
------------ GROUP BY ---------------------
-SELECT users.email, users.`name`, users.remember_token COUNT(comments.post_id)
+## SQL Queries:
+
+```sql
+SELECT * FROM users;
+
+SELECT users.email, users.`name`, users.remember_token FROM users;
+```
+
+## SQL GROUP BY Query:
+
+```sql
+SELECT users.email, users.`name`, users.remember_token, COUNT(comments.post_id)
 FROM users
 LEFT JOIN `comments` ON `comments`.post_id = post_id
 GROUP BY users.email, users.`name`, users.remember_token;
+```
 
-# RELATIONSHIPS
+## One-to-One Relationship:
 
-# ONE-TO-ONE
+### CREATE DB RELATIONSHIP ONE-TO-ONE
 
------------CREATE DB RELATIONSHIP ONE-TO-ONE ---------------------
+```sql
+SELECT * FROM users
+JOIN profiles ON profiles.user_id = user_id;
+```
 
-SELECT \* from users
-join profiles
-on profiles.user_id = user_id
+### Schema:
 
-# SCHEMA
-
+```php
 public function up(): void
 {
-Schema::create('profiles', function (Blueprint $table) {
-$table->bigIncrements('id');
-$table->unsignedBigInteger('user_id');
-$table->string('website');
-$table->string('github');
-$table->string('twitter');
-$table->timestamps();
+    Schema::create('profiles', function (Blueprint $table) {
+        $table->bigIncrements('id');
+        $table->unsignedBigInteger('user_id');
+        $table->string('website');
+        $table->string('github');
+        $table->string('twitter');
+        $table->timestamps();
 
-        $table->foreign('user_id')->references('id')->on('users')
-        ->onDelete('cascade');
+        $table->foreign('user_id')->references('id')->on 'users')->onDelete('cascade');
     });
-
 }
+```
 
------------ RELATIONSHIP ONE-TO-ONE ---------------------
+### One-to-One Relationship Steps:
 
-# ONE-TO-ONE STEPS
+#### User Model:
 
-    class User extends Authenticatable
-    {
-        use HasFactory;
+```php
+class User extends Authenticatable
+{
+    use HasFactory;
 
-        public function profile() {
-            return $this->belongsTo(Profile::class);
-        }
+    public function profile() {
+        return $this->belongsTo(Profile::class);
     }
+}
+```
 
-    class Profile extends Model
-    {
-        use HasFactory;
-        protected $guarded = [];
+#### Profile Model:
 
-        public function user() {
-            return $this->belongsTo(User::class);
-        }
+```php
+class Profile extends Model
+{
+    use HasFactory;
+    protected $guarded = [];
+
+    public function user() {
+        return $this->belongsTo(User::class);
     }
+}
+```
 
-    note: protected $guarded = []; // remember to add
+#### Note: `protected $guarded = [];` should be added to the `Profile` model.
 
-# tinker
+### Tinker Usage:
 
+Using Laravel Tinker:
+
+```bash
 php artisan tinker
 $user = new User
 $user->first()
 $user->first()->profile
+```
 
-#
+#### Note:
+
+To automatically include the `profile` relationship in queries, you can add `protected $with = ['profile']` in the `User` model.
+
+```php
+class User extends Authenticatable
+{
+    use HasFactory;
+    protected $with = ['profile']
+
+    public function profile() {
+        return $this->belongsTo(Profile::class);
+    }
+}
+```
+
+Tinker Usage:
+
+```bash
+php artisan tinker
+$user = new User
+$user->all()
+```
+
+This format retains all the information and is ready for reference. If you have any specific questions or need further assistance, please feel free to ask.
