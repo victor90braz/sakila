@@ -136,6 +136,7 @@ php artisan tinker
 $user = new User
 $user->first()
 $user->first()->profile
+$user->first()->toArray()
 ```
 
 #### Note:
