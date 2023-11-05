@@ -1,4 +1,4 @@
-Thank you for providing the information. It appears to be a collection of SQL statements, Laravel schema definitions, SQL join queries, and instructions for creating and working with one-to-one relationships in Laravel models. I'll keep the information as is, making it easier to reference.
+Collection of SQL statements, Laravel schema definitions, SQL join queries, and instructions for creating and working with one-to-one relationships in Laravel models. I'll keep the information as is, making it easier to reference.
 
 Here is the information you provided:
 
