@@ -283,4 +283,6 @@ EXPLAIN SELECT * from profiles
 WHERE user_id = 1
 
 EXPLAIN gives info about the query. If the type is "all," adding an index on user_id can make the search faster. If the type is "ref," the database is already using an index for efficient filtering.
+
+- check "type" and "rows"
 ```
