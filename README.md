@@ -355,3 +355,10 @@ SELECT id from posts WHERE user_id = users.id
 GROUP BY users.id
 ORDER BY total_post DESC
 LIMIT 10
+
+## SELECT total_films
+
+SELECT release_year, COUNT(\*) as total_films
+from film
+GROUP BY release_year
+ORDER by release_year DESC
