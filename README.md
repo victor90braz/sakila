@@ -302,3 +302,19 @@ SELECT actor_id, COUNT(\*) from film_actor
 WHERE actor_id = 5
 
 GROUP BY actor_id
+
+# select
+
+SELECT \* from users
+LEFT JOIN post_reads
+on post_reads.user_id = users.id in (
+SELECT id from posts WHERE user_id = users.id
+)
+
+SELECT users.id, users.`name` from users
+LEFT JOIN post_reads
+on post_reads.user_id = users.id in (
+SELECT id from posts WHERE user_id = users.id
+)
+
+GROUP BY users.id
