@@ -362,3 +362,15 @@ SELECT release_year, COUNT(\*) as total_films
 from film
 GROUP BY release_year
 ORDER by release_year DESC
+
+## SELECT AVG
+
+SELECT AVG(total_films)
+FROM(
+
+    SELECT release_year, COUNT(*) as total_films
+    from film
+    GROUP BY release_year
+    ORDER by release_year DESC
+
+) calculate_avg_films
