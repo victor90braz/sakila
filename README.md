@@ -1,27 +1,27 @@
-Collection of SQL statements, Laravel schema definitions, SQL join queries, and instructions for creating and working with one-to-one relationships in Laravel models. I'll keep the information as is, making it easier to reference.
+**Title: Collection of SQL Statements, Laravel Schema Definitions, and Instructions for One-to-One Relationships in Laravel Models**
 
-Here is the information you provided:
+GitHub Repository: https://github.com/victor90braz/sakila.git
 
-## Database Table Alterations:
+**Database Table Alterations:**
 
 ```sql
 ALTER TABLE `comments`
-ADD FOREIGN key (post_id) REFERENCES posts(id);
+ADD FOREIGN KEY (post_id) REFERENCES posts(id);
 
 ALTER TABLE `comments`
-ADD FOREIGN key (post_id) REFERENCES post_id(id) on DELETE CASCADE;
+ADD FOREIGN KEY (post_id) REFERENCES post_id(id) ON DELETE CASCADE;
 
 ALTER TABLE `comments`
-ADD FOREIGN key (post_id) REFERENCES post_id(id) on DELETE RESTRICT;
+ADD FOREIGN KEY (post_id) REFERENCES post_id(id) ON DELETE RESTRICT;
 
 ALTER TABLE `comments`
-ADD FOREIGN key (post_id) REFERENCES post_id(id) on DELETE no ACTION;
+ADD FOREIGN KEY (post_id) REFERENCES post_id(id) ON DELETE NO ACTION;
 
 ALTER TABLE `comments`
-ADD FOREIGN key (post_id) REFERENCES post_id(id) on DELETE set NULL;
+ADD FOREIGN KEY (post_id) REFERENCES post_id(id) ON DELETE SET NULL;
 ```
 
-## Database Schema:
+**Database Schema:**
 
 ```php
 Schema::create('comments', function (Blueprint $table) {
@@ -35,7 +35,7 @@ Schema::create('comments', function (Blueprint $table) {
 });
 ```
 
-## SQL JOIN Queries:
+**SQL JOIN Queries:**
 
 ```sql
 SELECT * FROM `posts` JOIN `comments` ON `comments`.`post_id` = `posts`.`id`;
@@ -47,12 +47,12 @@ SELECT * FROM `posts` LEFT JOIN `comments` ON `comments`.`post_id` = `posts`.`id
 SELECT * FROM `posts` RIGHT OUTER JOIN `comments` ON `comments`.`post_id` = `posts`.`id`;
 ```
 
-## SQL JOIN Notes:
+**SQL JOIN Notes:**
 
--   "LEFT OUTER JOIN" gets all queries from `posts`.
--   "RIGHT OUTER JOIN" gets all queries from `comments`.
+-   "LEFT OUTER JOIN" gets all records from `posts`.
+-   "RIGHT OUTER JOIN" gets all records from `comments`.
 
-## SQL Queries:
+**SQL Queries:**
 
 ```sql
 SELECT * FROM users;
@@ -60,7 +60,7 @@ SELECT * FROM users;
 SELECT users.email, users.`name`, users.remember_token FROM users;
 ```
 
-## SQL GROUP BY Query:
+**SQL GROUP BY Query:**
 
 ```sql
 SELECT users.email, users.`name`, users.remember_token, COUNT(comments.post_id)
@@ -69,16 +69,11 @@ LEFT JOIN `comments` ON `comments`.post_id = post_id
 GROUP BY users.email, users.`name`, users.remember_token;
 ```
 
-## One-to-One Relationship:
+**One-to-One Relationship:**
 
-### CREATE DB RELATIONSHIP ONE-TO-ONE
+**CREATE DB RELATIONSHIP ONE-TO-ONE**
 
-```sql
-SELECT * FROM users
-JOIN profiles ON profiles.user_id = user_id;
-```
-
-### Schema:
+**Schema:**
 
 ```php
 public function up(): void
@@ -96,9 +91,9 @@ public function up(): void
 }
 ```
 
-### One-to-One Relationship Steps:
+**One-to-One Relationship Steps:**
 
-#### User Model:
+**User Model:**
 
 ```php
 class User extends Authenticatable
@@ -111,7 +106,7 @@ class User extends Authenticatable
 }
 ```
 
-#### Profile Model:
+**Profile Model:**
 
 ```php
 class Profile extends Model
@@ -120,14 +115,14 @@ class Profile extends Model
     protected $guarded = [];
 
     public function user() {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo User::class;
     }
 }
 ```
 
-#### Note: `protected $guarded = [];` should be added to the `Profile` model.
+\*\*Note: `protected $guarded = [];` should be added to the `Profile` model.
 
-### Tinker Usage:
+**Tinker Usage:**
 
 Using Laravel Tinker:
 
@@ -139,7 +134,7 @@ $user->first()->profile
 $user->first()->toArray()
 ```
 
-#### Note:
+**Note:**
 
 To automatically include the `profile` relationship in queries, you can add `protected $with = ['profile']` in the `User` model.
 
@@ -164,20 +159,25 @@ $user->all()
 $user->first()->toArray()
 ```
 
-# SELECT \*
+**SELECT \***
 
-SELECT \* from posts
-join users on users.id = posts.user_id
-where user_id = 1
+```sql
+SELECT * from posts
+JOIN users on users.id = posts.user_id
+WHERE user_id = 1
+```
 
-# SELECT posts.id, title, body, published_at, users.name
+**SELECT posts.id, title, body, published_at, users.name**
 
+```sql
 SELECT posts.id, title, body, published_at, users.name from posts
-join users on users.id = posts.user_id
-where user_id = 1
+JOIN users on users.id = posts.user_id
+WHERE user_id = 1
+```
 
-# if we change the function name, specify the user_id as reference
+**If we change the function name, specify the user_id as reference**
 
+```php
 class Post extends Model
 {
 use HasFactory;
@@ -188,9 +188,11 @@ use HasFactory;
     }
 
 }
+```
 
-# tinker
+**Tinker**
 
+```bash
 $user = User::find(1);
 
 > $post = $user->posts()->create([
@@ -200,9 +202,11 @@ $user = User::find(1);
 > > . ]);
 
 $user->first()->posts->toArray()
+```
 
-# many to many
+**Many to many**
 
+```php
 $this->belongsToMany(Post::class);
 $this->belongsToMany(Tag::class);
 
@@ -218,17 +222,65 @@ $this->belongsToMany(Tag::class);
         $table->foreign('tag_id')->references('id')->on('tags')
         ->onDelete('cascade');
     });
+```
 
-select \* from posts
-left join post_tag
+```sql
+SELECT * from posts
+LEFT JOIN post_tag
 on post_tag.post_id = posts.id
 WHERE post_tag.tag_id = 1
 
 $post = App\Models\Post::find(1)
 $post->tags
 
-$post = App\Models\Post::find(6)
+$post = App.Models.Post.find(6)
+post.tags
+
+$tag = App
+
+.Models.Tag.find(2)
+$tag->posts
+```
+
+Many to Many
+
+```php
+$this->belongsToMany(Post::class);
+$this->belongsToMany(Tag::class);
+
+Schema::create('post_tag', function (Blueprint $table) {
+    $table->bigIncrements('id');
+    $table->unsignedBigInteger('post_id');
+    $table->unsignedBigInteger('tag_id');
+    $table->timestamps();
+
+    $table->foreign('post_id')->references('id')->on('posts')
+    ->onDelete('cascade');
+
+    $table->foreign('tag_id')->references('id')->on('tags')
+    ->onDelete('cascade');
+});
+
+SELECT * from posts
+LEFT JOIN post_tag
+on post_tag.post_id = posts.id
+WHERE post_tag.tag_id = 1
+
+$post = App.Models.Post.find(1)
 $post->tags
 
-$tag = App\Models\Tag::find(2)
+$post = App.Models.Post.find(6)
+$post.tags
+
+$tag = App.Models.Tag.find(2)
 $tag->posts
+```
+
+**Index**
+
+```sql
+EXPLAIN SELECT * from profiles
+WHERE user_id = 1
+
+EXPLAIN gives info about the query. If the type is "all," adding an index on user_id can make the search faster. If the type is "ref," the database is already using an index for efficient filtering.
+```
