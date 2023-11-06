@@ -286,3 +286,19 @@ EXPLAIN gives info about the query. If the type is "all," adding an index on use
 
 - check "type" and "rows"
 ```
+
+# example
+
+EXPLAIN SELECT actor_id, COUNT(\*) from film_actor
+GROUP BY actor_id
+
+type(index)
+rows(119323)
+
+-------------------// ----------------
+
+SELECT actor_id, COUNT(\*) from film_actor
+
+WHERE actor_id = 5
+
+GROUP BY actor_id
