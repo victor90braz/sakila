@@ -374,3 +374,15 @@ FROM(
     ORDER by release_year DESC
 
 ) calculate_avg_films
+
+## SELECT round
+
+SELECT round( AVG(total_films) ) as average_rounded
+FROM(
+
+    SELECT release_year, COUNT(*) as total_films
+    from film
+    GROUP BY release_year
+    ORDER by release_year DESC
+
+) calculate_avg_films
