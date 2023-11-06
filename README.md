@@ -332,3 +332,14 @@ SELECT id from posts WHERE user_id = users.id
 )
 
 GROUP BY users.id
+
+## SELECT ORDER BY total_post DESC
+
+SELECT users.id, users.`name`, COUNT(\*) as total_post from users
+LEFT JOIN post_reads
+on post_reads.user_id = users.id in (
+SELECT id from posts WHERE user_id = users.id
+)
+
+GROUP BY users.id
+ORDER BY total_post DESC
