@@ -305,13 +305,27 @@ GROUP BY actor_id
 
 # select
 
+## SELECT \*
+
 SELECT \* from users
 LEFT JOIN post_reads
 on post_reads.user_id = users.id in (
 SELECT id from posts WHERE user_id = users.id
 )
 
+## SELECT GROUP BY
+
 SELECT users.id, users.`name` from users
+LEFT JOIN post_reads
+on post_reads.user_id = users.id in (
+SELECT id from posts WHERE user_id = users.id
+)
+
+GROUP BY users.id
+
+## SELECT GROUP BY COUNT(\*) as post_read
+
+SELECT users.id, users.`name`, COUNT(\*) as post_read from users
 LEFT JOIN post_reads
 on post_reads.user_id = users.id in (
 SELECT id from posts WHERE user_id = users.id
